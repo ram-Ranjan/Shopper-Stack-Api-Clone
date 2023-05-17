@@ -11,16 +11,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Product {
+public class Wishlist {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	long productId;
-	String productTitle;
-	String productDescription;
-	double productPrice;
-	double productDiscount;
-	
+	long wishlistId;
 	
 
 }

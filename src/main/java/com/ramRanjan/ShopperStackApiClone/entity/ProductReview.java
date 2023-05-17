@@ -1,5 +1,7 @@
 package com.ramRanjan.ShopperStackApiClone.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,16 +13,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Product {
+public class ProductReview {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	long productId;
-	String productTitle;
-	String productDescription;
-	double productPrice;
-	double productDiscount;
-	
+	long reviewId;
+	int reviewRating;
+	String reviewComment;
+	LocalDate reviewDate;
 	
 
 }

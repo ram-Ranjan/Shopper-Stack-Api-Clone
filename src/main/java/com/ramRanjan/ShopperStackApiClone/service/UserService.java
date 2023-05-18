@@ -66,9 +66,9 @@ public ResponseEntity<ResponseStructure<UserDto>> deleteUserById(long userId){
 		UserDto userDto=this.modelMapper.map(dbUser, UserDto.class);
 		ResponseStructure<UserDto> structure=new ResponseStructure<UserDto>();
 		structure.setMessage("User deleted successfully");
-		structure.setStatus(HttpStatus.FOUND.value());
+		structure.setStatus(HttpStatus.OK.value());
 		structure.setData(userDto);
-		return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.FOUND);
+		return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.OK);
 	}else {
 //		id not found exception
 		 throw new UserIdNotFoundException("Failed to update User!!!");

@@ -100,10 +100,10 @@ public class WishlistService {
 				wishlistDao.deleteProduct(id);
 				WishlistDto wishlistDto  = this.modelMapper.map(existingWishlist, WishlistDto.class);	
 				ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
-				structure.setStatus(HttpStatus.FOUND.value());
+				structure.setStatus(HttpStatus.OK.value());
 				structure.setData(wishlistDto);
 				structure.setMessage("Wishlist found with given id");
-				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.FOUND);
+				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.OK);
 			} else
 				throw new ProductNotFoundByIdException("Wishlist doesn't exist with given id");
 

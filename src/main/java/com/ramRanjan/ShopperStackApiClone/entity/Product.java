@@ -37,7 +37,6 @@ public class Product {
 	private List<User> listOfUsers;
 	@ManyToMany
 	private List<ProductReview> productReviews;
-	@ManyToMany
-	private List<CustomerCart> carts;
+	
 
 }

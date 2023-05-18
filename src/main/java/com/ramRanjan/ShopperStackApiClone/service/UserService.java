@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.ramRanjan.ShopperStackApiClone.dao.UserDao;
 import com.ramRanjan.ShopperStackApiClone.dto.UserDto;
 import com.ramRanjan.ShopperStackApiClone.entity.User;
+import com.ramRanjan.ShopperStackApiClone.exception.AddressIdNotFoundException;
+import com.ramRanjan.ShopperStackApiClone.exception.UserIdNotFoundException;
 import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 
 @Service
@@ -41,7 +43,36 @@ public ResponseEntity<ResponseStructure<UserDto>> updateUser(long userId,User us
 		return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.OK);
 	}else {
 //		id not found exception
-		return null;
+		 throw new UserIdNotFoundException("Failed to update User!!!");
 	}
 	}
+public ResponseEntity<ResponseStructure<UserDto>> findUserById(long userId){
+	User dbUser=userDao.findUserById(userId);
+	if(dbUser!=null) {
+		UserDto userDto=this.modelMapper.map(dbUser, UserDto.class);
+		ResponseStructure<UserDto> structure=new ResponseStructure<UserDto>();
+		structure.setMessage("User fetched successfully");
+		structure.setStatus(HttpStatus.OK.value());
+		structure.setData(userDto);
+		return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.OK);
+	}else {
+//		id not found exception
+		 throw new UserIdNotFoundException("Failed to update User!!!");
+	}
+}
+public ResponseEntity<ResponseStructure<UserDto>> deleteUserById(long userId){
+	User dbUser=userDao.findUserById(userId);
+	if(dbUser!=null) {
+		UserDto userDto=this.modelMapper.map(dbUser, UserDto.class);
+		ResponseStructure<UserDto> structure=new ResponseStructure<UserDto>();
+		structure.setMessage("User deleted successfully");
+		structure.setStatus(HttpStatus.FOUND.value());
+		structure.setData(userDto);
+		return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.FOUND);
+	}else {
+//		id not found exception
+		 throw new UserIdNotFoundException("Failed to update User!!!");
+	}
+}
+
 }

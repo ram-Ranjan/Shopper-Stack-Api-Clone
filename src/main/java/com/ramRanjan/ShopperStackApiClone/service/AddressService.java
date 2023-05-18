@@ -2,6 +2,7 @@ package com.ramRanjan.ShopperStackApiClone.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 @Service
 public class AddressService {
 	@Autowired
+
 	private AddressDao addressDao;
 	@Autowired
 	private UserDao userDao;

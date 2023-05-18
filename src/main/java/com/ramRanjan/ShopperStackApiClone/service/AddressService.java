@@ -11,6 +11,8 @@ import com.ramRanjan.ShopperStackApiClone.dao.UserDao;
 import com.ramRanjan.ShopperStackApiClone.dto.AddressDto;
 import com.ramRanjan.ShopperStackApiClone.entity.Address;
 import com.ramRanjan.ShopperStackApiClone.entity.User;
+import com.ramRanjan.ShopperStackApiClone.exception.AddressIdNotFoundException;
+import com.ramRanjan.ShopperStackApiClone.exception.UserIdNotFoundException;
 import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 
 @Service
@@ -35,11 +37,10 @@ public class AddressService {
 				structure.setData(dbAddress);
 				return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.CREATED);
 			}
-			return  null;
+			 throw new AddressIdNotFoundException("Failed to Add Address!!!");
 			
 		}else {
-			return null;
-//			userIdNoTFound
+			 throw new UserIdNotFoundException("Failed to add Address!!!");
 		}
 	}
 	
@@ -53,7 +54,7 @@ public class AddressService {
 			structure.setData(dbAddress);
 			return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.OK);
 		}else {
-			return null;
+			 throw new AddressIdNotFoundException("Failed to update Address!!!");
 //			addressIdnot
 		}
 	}
@@ -68,7 +69,7 @@ public ResponseEntity<ResponseStructure<Address>> findAddress(long addressId){
 		return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.FOUND);
 	
 	}else {
-		return null;
+		 throw new AddressIdNotFoundException("Failed to find Address!!!");
 //		addressIdNot
 	}
 }
@@ -83,7 +84,7 @@ public ResponseEntity<ResponseStructure<Address>> deleteAddress(long addressId){
 		return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.FOUND);
 	
 	}else {
-		return null;
+		 throw new AddressIdNotFoundException("Failed to delete Address!!!");
 //		addressIdNot
 	}
 }

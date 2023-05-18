@@ -1,4 +1,4 @@
-package com.ramRanjan.ShopperStackApiClone.entity;
+package com.ramRanjan.ShopperStackApiClone.dto;
 
 import java.util.List;
 
@@ -8,15 +8,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.stereotype.Component;
+
+import com.ramRanjan.ShopperStackApiClone.entity.CustomerOrder;
+
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-public class CustomerCart {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Component
+public class CustomerCartDto {
 	private long customerCartId;
 	private double customerCartSubTotal;
 	private long customerCartQuantity;

@@ -10,12 +10,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class CustomerOrder {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private long customerOrderId;
-private LocalDateTime customerOrderDate;
-private String customerOrderStatus;
-@ManyToOne
-private CustomerCart cart;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long customerOrderId;
+	private LocalDateTime customerOrderDate;
+	private String customerOrderStatus;
+	@ManyToOne
+	private CustomerCart cart;
 
 }

@@ -14,13 +14,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductReview {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long reviewId;
 	private int reviewRating;
 	private String reviewComment;
 	private LocalDate reviewDate;
-	
 
 }

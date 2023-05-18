@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productId;
@@ -32,13 +32,12 @@ public class Product {
 	private ProductSize productsize;
 	private ProductStatus produtStatus;
 	private double productStock;
-	@ManyToOne
-	private List<User> users;
+	
+	@ManyToMany
+	private List<User> listOfUsers;
 	@ManyToMany
 	private List<ProductReview> productReviews;
 	@ManyToMany
 	private List<CustomerCart> carts;
-	
-	
 
 }

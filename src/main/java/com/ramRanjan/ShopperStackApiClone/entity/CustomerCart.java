@@ -10,8 +10,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class CustomerCart {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long customerCartId;
 	private double customerCartSubTotal;
 	private long customerCartQuantity;

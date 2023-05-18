@@ -5,6 +5,6 @@ public enum ProductSize {
 s,
 M,
 L,
-xL
+x
 
 }

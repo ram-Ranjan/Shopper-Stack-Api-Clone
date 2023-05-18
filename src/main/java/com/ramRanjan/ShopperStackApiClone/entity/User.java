@@ -3,7 +3,10 @@ package com.ramRanjan.ShopperStackApiClone.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -17,18 +20,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
-@Id
-private long userId;
-private String userName;
-private String userEmail;
-private String userPassword;
-private long userPhoneNumber;
-private UserRole userRole;
-private UserStatus userStatus;
-@OneToMany
-List<Address> address;
-@OneToMany
-List<Product>  products;
-@OneToOne
-private CustomerCart cart;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long userId;
+	private String userName;
+	private String userEmail;
+	private String userPassword;
+	private long userPhoneNumber;
+	private UserRole userRole;
+	private UserStatus userStatus;
+	@OneToMany
+	List<Address> address;
+	@ManyToMany
+	List<Product> products;
+	@OneToOne
+	private CustomerCart cart;
 }

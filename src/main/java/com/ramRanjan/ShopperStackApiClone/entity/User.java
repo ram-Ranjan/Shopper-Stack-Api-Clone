@@ -30,9 +30,11 @@ public class User {
 	private UserRole userRole;
 	private UserStatus userStatus;
 	@OneToMany
-	List<Address> address;
+	List<Address> addresses;
 	@ManyToMany
 	List<Product> products;
 	@OneToOne
 	private CustomerCart cart;
+	@OneToMany
+	List<Wishlist> wishlists;
 }

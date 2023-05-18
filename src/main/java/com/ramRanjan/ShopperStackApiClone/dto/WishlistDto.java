@@ -1,4 +1,4 @@
-package com.ramRanjan.ShopperStackApiClone.entity;
+package com.ramRanjan.ShopperStackApiClone.dto;
 
 import java.util.List;
 
@@ -8,18 +8,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.stereotype.Component;
+
+import com.ramRanjan.ShopperStackApiClone.entity.Product;
+
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-public class Wishlist {
+@Component
+public class WishlistDto {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long wishlistId;
 	@OneToMany
 	private List<Product> products;
 	
+
 }

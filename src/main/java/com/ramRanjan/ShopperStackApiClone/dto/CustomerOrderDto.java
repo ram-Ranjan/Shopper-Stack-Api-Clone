@@ -1,4 +1,4 @@
-package com.ramRanjan.ShopperStackApiClone.entity;
+package com.ramRanjan.ShopperStackApiClone.dto;
 
 import java.time.LocalDateTime;
 
@@ -8,21 +8,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Component
 @Getter
 @Setter
-public class CustomerOrder {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CustomerOrderDto {
 	private long customerOrderId;
 	private LocalDateTime customerOrderDate;
 	private String customerOrderStatus;
-	@ManyToOne
-	private CustomerCart cart;
-	
-	
 
 }

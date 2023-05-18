@@ -22,7 +22,7 @@ public class AddressService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public ResponseEntity<ResponseStructure<Address>> saveAddress(int userId,AddressDto addressDto){
+	public ResponseEntity<ResponseStructure<Address>> saveAddress(long userId,AddressDto addressDto){
 		User user=userDao.findUserById(userId);
 		if(user!=null) {
 			Address address=this.modelMapper.map(addressDto, Address.class);

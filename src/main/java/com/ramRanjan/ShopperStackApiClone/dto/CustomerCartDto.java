@@ -20,6 +20,4 @@ public class CustomerCartDto {
 	private long customerCartQuantity;
 	private double customerCartDiscount;
 	private double customerCartTotal;
-	@OneToMany
-	private List<CustomerOrder> customerOrders;
 }

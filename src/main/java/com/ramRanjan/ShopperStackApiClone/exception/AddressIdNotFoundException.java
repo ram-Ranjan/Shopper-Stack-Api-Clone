@@ -3,7 +3,7 @@ package com.ramRanjan.ShopperStackApiClone.exception;
 import lombok.Getter;
 
 @Getter
-public class AddressIdNotFoundException extends Exception {
+public class AddressIdNotFoundException extends RuntimeException {
 private String message;
 
 public AddressIdNotFoundException(String message) {

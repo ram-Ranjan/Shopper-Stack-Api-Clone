@@ -26,7 +26,7 @@ public class ApplicationConfig {
 		ApiInfo apiInfo = new ApiInfo("ShopperStack API clone", "Online Shopping Site", "1.01", "7 days of free service",
 				contact, "www.testyantra.com", "www.testyantra.com", extensions);
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ramRanjan.FitnessApp")).build()
+				.apis(RequestHandlerSelectors.basePackage("com.ramRanjan.ShopperStack")).build()
 				.apiInfo(apiInfo).useDefaultResponseMessages(false);
 	}
 }

@@ -74,7 +74,7 @@ public class ProductService {
 			throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 
 	}
-	public ResponseEntity<ResponseStructure<ProductDto>> deleteProduct(long id){
+	public ResponseEntity<ResponseStructure<ProductDto>> deleteProductById(long id){
 		 Product existingProduct = productDao.getProductById(id);
 			if (existingProduct != null) {
 				

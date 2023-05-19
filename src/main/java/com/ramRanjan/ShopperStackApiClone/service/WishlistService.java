@@ -93,7 +93,7 @@ public class WishlistService {
 			throw new ProductNotFoundByIdException("Wishlist doesn't exist with given id");
 
 	}
-	public ResponseEntity<ResponseStructure<WishlistDto>> deleteProduct(long id){
+	public ResponseEntity<ResponseStructure<WishlistDto>> deleteWishlistById(long id){
 		Wishlist existingWishlist = wishlistDao.getWishlistById(id);
 			if (existingWishlist != null) {
 				

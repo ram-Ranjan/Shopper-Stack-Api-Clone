@@ -92,7 +92,7 @@ public class ProductReviewService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<ProductReviewDto>> deleteProductReview(long id) {
+	public ResponseEntity<ResponseStructure<ProductReviewDto>> deleteProductReviewById(long id) {
 		ProductReview existingProductReview = productReviewDao.getProductReviewById(id);
 		if (existingProductReview != null) {
 

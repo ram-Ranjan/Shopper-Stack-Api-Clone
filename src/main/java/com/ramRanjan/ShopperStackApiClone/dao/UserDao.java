@@ -15,7 +15,7 @@ public class UserDao {
 	public User saveUser(User user) {
 		return repo.save(user);
 	}
-	public User updateAddress(long userId,User user) {
+	public User updateUser(long userId,User user) {
 		if(repo.findById(userId).isPresent()) {
 			user.setUserId(userId);
 			return repo.save(user);

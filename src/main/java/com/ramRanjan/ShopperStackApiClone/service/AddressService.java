@@ -2,7 +2,6 @@ package com.ramRanjan.ShopperStackApiClone.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -81,9 +80,9 @@ public ResponseEntity<ResponseStructure<Address>> deleteAddress(long addressId){
 
 		ResponseStructure<Address> structure=new ResponseStructure<Address>();
 		structure.setMessage("address deleted successfully");
-		structure.setStatus(HttpStatus.FOUND.value());
+		structure.setStatus(HttpStatus.OK.value());
 		structure.setData(address);
-		return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.FOUND);
+		return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.OK);
 	
 	}else {
 		 throw new AddressIdNotFoundException("Failed to delete Address!!!");

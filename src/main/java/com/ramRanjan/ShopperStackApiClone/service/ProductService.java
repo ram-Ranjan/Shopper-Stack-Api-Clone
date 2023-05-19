@@ -74,17 +74,17 @@ public class ProductService {
 			throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 
 	}
-	public ResponseEntity<ResponseStructure<ProductDto>> deleteProduct(long id){
+	public ResponseEntity<ResponseStructure<ProductDto>> deleteProductById(long id){
 		 Product existingProduct = productDao.getProductById(id);
 			if (existingProduct != null) {
 				
 				productDao.deleteProduct(id);
 				ProductDto productDto  = this.modelMapper.map(existingProduct, ProductDto.class);	
 				ResponseStructure<ProductDto> structure = new ResponseStructure<ProductDto>();
-				structure.setStatus(HttpStatus.FOUND.value());
+				structure.setStatus(HttpStatus.OK.value());
 				structure.setData(productDto);
 				structure.setMessage("Product found with given id");
-				return new ResponseEntity<ResponseStructure<ProductDto>>(structure, HttpStatus.FOUND);
+				return new ResponseEntity<ResponseStructure<ProductDto>>(structure, HttpStatus.OK);
 			} else
 				throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 		}

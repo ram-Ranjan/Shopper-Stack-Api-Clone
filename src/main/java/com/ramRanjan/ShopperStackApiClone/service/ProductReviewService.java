@@ -92,17 +92,17 @@ public class ProductReviewService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<ProductReviewDto>> deleteProductReview(long id) {
+	public ResponseEntity<ResponseStructure<ProductReviewDto>> deleteProductReviewById(long id) {
 		ProductReview existingProductReview = productReviewDao.getProductReviewById(id);
 		if (existingProductReview != null) {
 
 			productReviewDao.deleteProductReview(id);
 			ProductReviewDto productReviewDto = this.modelMapper.map(existingProductReview, ProductReviewDto.class);
 			ResponseStructure<ProductReviewDto> structure = new ResponseStructure<ProductReviewDto>();
-			structure.setStatus(HttpStatus.FOUND.value());
+			structure.setStatus(HttpStatus.OK.value());
 			structure.setData(productReviewDto);
 			structure.setMessage("Product Review found with given id");
-			return new ResponseEntity<ResponseStructure<ProductReviewDto>>(structure, HttpStatus.FOUND);
+			return new ResponseEntity<ResponseStructure<ProductReviewDto>>(structure, HttpStatus.OK);
 		} else
 			throw new ProductNotFoundByIdException("Product Review doesn't exist with given id");
 

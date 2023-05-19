@@ -1,10 +1,6 @@
 package com.ramRanjan.ShopperStackApiClone.enums;
 
 public enum ProductSize {
-	XS,
-s,
-M,
-L,
-x
+	XS, S, M, L, X
 
 }

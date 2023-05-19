@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 import com.ramRanjan.ShopperStackApiClone.enums.ProductSize;
 import com.ramRanjan.ShopperStackApiClone.enums.ProductStatus;

@@ -15,6 +15,7 @@ import com.ramRanjan.ShopperStackApiClone.dto.CustomerCartDto;
 import com.ramRanjan.ShopperStackApiClone.entity.CustomerCart;
 import com.ramRanjan.ShopperStackApiClone.entity.Product;
 import com.ramRanjan.ShopperStackApiClone.exception.CartIdNotFoundException;
+import com.ramRanjan.ShopperStackApiClone.exception.ProductNotFoundByIdException;
 import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 
 @Service
@@ -43,7 +44,7 @@ public class CustomerCartService {
 			}
 			return null;
 		}else {
-		return null;
+	throw  new ProductNotFoundByIdException("Failed to add product to Cart");
 //		product id not found  exception
 		}
 	}

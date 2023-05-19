@@ -32,7 +32,7 @@ public ResponseEntity<ResponseStructure<Address>> addAddress(@RequestParam long 
 		return addressService.updateAddress(addressId, addressDto);
 	}
 	@GetMapping
-	public ResponseEntity<ResponseStructure<Address>> GetAddress(@RequestParam long addressId){
+	public ResponseEntity<ResponseStructure<Address>> getAddress(@RequestParam long addressId){
 		return addressService.findAddress(addressId);
 	}
 	@DeleteMapping

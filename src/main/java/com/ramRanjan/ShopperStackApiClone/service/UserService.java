@@ -58,7 +58,6 @@ public class UserService {
 			structure.setData(userDto);
 			return new ResponseEntity<ResponseStructure<UserDto>>(structure, HttpStatus.OK);
 		} else {
-//		id not found exception
 			throw new UserIdNotFoundException("Failed to update User!!!");
 		}
 	}
@@ -73,7 +72,6 @@ public class UserService {
 			structure.setData(userDto);
 			return new ResponseEntity<ResponseStructure<UserDto>>(structure, HttpStatus.OK);
 		} else {
-//		id not found exception
 			throw new UserIdNotFoundException("Failed to update User!!!");
 		}
 	}

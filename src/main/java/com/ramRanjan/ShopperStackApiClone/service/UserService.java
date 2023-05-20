@@ -24,6 +24,7 @@ public class UserService {
 		User user2 = userDao.saveUser(user);
 		if (user2 != null) {
 			UserDto userDto = this.modelMapper.map(user2, UserDto.class);
+			
 			ResponseStructure<UserDto> structure = new ResponseStructure<UserDto>();
 			structure.setMessage("User added successfully");
 			structure.setStatus(HttpStatus.CREATED.value());

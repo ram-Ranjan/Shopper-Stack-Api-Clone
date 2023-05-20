@@ -1,5 +1,8 @@
 package com.ramRanjan.ShopperStackApiClone.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,13 +46,17 @@ public class WishlistService {
 			if (existingProduct != null) {
 
 				Wishlist mappedWishlist = modelMapper.map(wishlistDto, Wishlist.class);
+				mappedWishlist.setUser(existingUser);
+				List<Product> products = new ArrayList<>();
+				products.add(existingProduct);
+				mappedWishlist.setProducts(products);
 				wishlistDao.addWishlist(mappedWishlist);
 
 				ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
-				structure.setStatus(HttpStatus.FOUND.value());
+				structure.setStatus(HttpStatus.CREATED.value());
 				structure.setData(wishlistDto);
-				structure.setMessage("Product Review found with given id");
-				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.FOUND);
+				structure.setMessage("Created Wishlist");
+				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.CREATED);
 			} else
 				throw new ProductNotFoundByIdException("Product Review doesn't exist with given id");
 		}

@@ -17,7 +17,7 @@ public class AddressDao {
 	}
 	public Address updateAddress(long addressId,Address address) {
 		if(repo.findById(addressId).isPresent()) {
-			address.setAddressiD(addressId);
+			address.setAddressId(addressId);
 			return repo.save(address);
 		}
 		return null;

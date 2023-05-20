@@ -44,7 +44,7 @@ public ResponseEntity<ResponseStructure<CustomerOrder>> addCustomerOrder(@Reques
 			@ApiResponse(code = 404, message = "CustomerOrder not found for the given  id") })
 	@GetMapping
 	public ResponseEntity<ResponseStructure<CustomerOrder>> getCustomerOrder(@RequestParam long orderId){
-		return orderService.getOrder(orderId);
+		return orderService.getOrderById(orderId);
 	}
 
 	@ApiOperation(value = "Delete CustomerOrder", notes = " Api is used to delete the CustomerOrder")
@@ -52,7 +52,7 @@ public ResponseEntity<ResponseStructure<CustomerOrder>> addCustomerOrder(@Reques
 			@ApiResponse(code = 404, message = "CustomerOrder not found for the given  id") })
 	@DeleteMapping
 	public ResponseEntity<ResponseStructure<CustomerOrder>> deleteCustomerOrder(@RequestParam long orderId){
-		return orderService.deleteOrder(orderId);
+		return orderService.deleteOrderById(orderId);
 	}
 
 }

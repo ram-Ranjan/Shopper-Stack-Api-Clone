@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +17,7 @@ import lombok.Setter;
 public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long addressiD;
+	private long addressId;
 	private String buildingName;
 	private String road;
 	private String city;
@@ -24,6 +27,7 @@ public class Address {
 	private long customerPhoneNumber;
 	private long pincode;
 	@ManyToOne
+	@JsonIgnore
 	private User user;
 
 }

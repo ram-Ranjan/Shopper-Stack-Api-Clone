@@ -1,5 +1,7 @@
 package com.ramRanjan.ShopperStackApiClone.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,12 @@ public class AddressService {
 		if(user!=null) {
 			Address address=this.modelMapper.map(addressDto, Address.class);
 			address.setUser(user);
+
 			Address dbAddress=addressDao.saveAddress(address);
+			List<Address> addresses=user.getAddresses();
+			addresses.add(address);
+			user.setAddresses(addresses);
+			userDao.updateUser(userId, user);
 			if(dbAddress!=null) {
 				ResponseStructure<Address> structure=new ResponseStructure<Address>();
 				structure.setMessage("address saved successfully");
@@ -56,7 +63,6 @@ public class AddressService {
 			return new ResponseEntity<ResponseStructure<Address>>(structure,HttpStatus.OK);
 		}else {
 			 throw new AddressIdNotFoundException("Failed to update Address!!!");
-//			addressIdnot
 		}
 	}
 public ResponseEntity<ResponseStructure<Address>> findAddress(long addressId){
@@ -71,7 +77,6 @@ public ResponseEntity<ResponseStructure<Address>> findAddress(long addressId){
 	
 	}else {
 		 throw new AddressIdNotFoundException("Failed to find Address!!!");
-//		addressIdNot
 	}
 }
 public ResponseEntity<ResponseStructure<Address>> deleteAddress(long addressId){
@@ -86,7 +91,6 @@ public ResponseEntity<ResponseStructure<Address>> deleteAddress(long addressId){
 	
 	}else {
 		 throw new AddressIdNotFoundException("Failed to delete Address!!!");
-//		addressIdNot
 	}
 }
 

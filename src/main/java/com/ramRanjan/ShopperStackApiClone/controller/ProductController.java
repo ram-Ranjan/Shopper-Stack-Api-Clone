@@ -46,8 +46,8 @@ public class ProductController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully Updated"),
 			@ApiResponse(code = 404, message = "Product not found for the given  id") })
 	@PutMapping
-	public ResponseEntity<ResponseStructure<ProductDto>> updateProduct(long productId, ProductDto productDto) {
-		return productService.updateProduct(productId, productDto);
+	public ResponseEntity<ResponseStructure<ProductDto>> updateProduct(@RequestParam long userId,@RequestParam long productId,@RequestBody ProductDto productDto) {
+		return productService.updateProduct(userId,productId, productDto);
 
 	}
 	@ApiOperation(value = "Delete Product", notes = " Api is used to delete the Product")

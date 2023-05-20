@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.ramRanjan.ShopperStackApiClone.enums.ProductSize;
 import com.ramRanjan.ShopperStackApiClone.enums.ProductStatus;
 
@@ -27,6 +29,7 @@ public class Product {
 	private String productDescription;
 	private double productPrice;
 	private double productDiscount;
+	@CreatedDate
 	private LocalDate addedDate;
 	private ProductSize productSize;
 	private ProductStatus productStatus;

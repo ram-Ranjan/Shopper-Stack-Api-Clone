@@ -59,7 +59,7 @@ public class CustomerOrderService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<CustomerOrder>> getOrder(long orderId) {
+	public ResponseEntity<ResponseStructure<CustomerOrder>> getOrderById(long orderId) {
 		CustomerOrder order=orderDao.getCustomerOrderById(orderId);
 		if (order != null) {
 			ResponseStructure<CustomerOrder> structure = new ResponseStructure<CustomerOrder>();
@@ -72,7 +72,7 @@ public class CustomerOrderService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<CustomerOrder>> deleteOrder(long orderId) {
+	public ResponseEntity<ResponseStructure<CustomerOrder>> deleteOrderById(long orderId) {
 		CustomerOrder order=orderDao.deleteCustomerOrder(orderId);
 		if (order != null) {
 			ResponseStructure<CustomerOrder> structure = new ResponseStructure<CustomerOrder>();

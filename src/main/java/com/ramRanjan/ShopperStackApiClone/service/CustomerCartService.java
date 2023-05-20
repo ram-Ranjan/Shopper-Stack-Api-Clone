@@ -45,7 +45,6 @@ public class CustomerCartService {
 			return null;
 		}else {
 	throw  new ProductNotFoundByIdException("Failed to add product to Cart");
-//		product id not found  exception
 		}
 	}
 	public ResponseEntity<ResponseStructure<CustomerCart>> updateCart(long cartId,CustomerCartDto cartDto){

@@ -37,14 +37,13 @@ public class WishlistDao {
 		else
 			return null;
 	}
-	public Wishlist deleteProduct(long id) {
-		Optional<Wishlist> optional = wishlistRepo.findById(id);
-		if(optional.isPresent()) {
-			wishlistRepo.deleteById(id);
-			return optional.get();
-		}
-		else
-			return null;
+	
+	public Wishlist deleteProduct(Wishlist wishlist) {
+			wishlistRepo.delete(wishlist);
+			return wishlist;
+	
 	}
+
+	
 
 }

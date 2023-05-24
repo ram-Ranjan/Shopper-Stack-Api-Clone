@@ -19,7 +19,7 @@ public class WishlistDto {
 	private long wishlistId;
 	private String wishlistTitle;
 	@OneToMany
-	private List<Product> products;
+	private List<ProductDto> productDtos;
 	
 
 }

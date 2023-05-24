@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 import com.ramRanjan.ShopperStackApiClone.dao.ProductDao;
 import com.ramRanjan.ShopperStackApiClone.dao.UserDao;
 import com.ramRanjan.ShopperStackApiClone.dao.WishlistDao;
+import com.ramRanjan.ShopperStackApiClone.dto.ProductDto;
 import com.ramRanjan.ShopperStackApiClone.dto.WishlistDto;
 import com.ramRanjan.ShopperStackApiClone.entity.Product;
 import com.ramRanjan.ShopperStackApiClone.entity.User;
 import com.ramRanjan.ShopperStackApiClone.entity.Wishlist;
 import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
+import com.ramRanjan.ShopperStackApiClone.exception.ProductAlreadyExistingException;
 import com.ramRanjan.ShopperStackApiClone.exception.ProductNotFoundByIdException;
 import com.ramRanjan.ShopperStackApiClone.exception.UserIsNotCustomerException;
 import com.ramRanjan.ShopperStackApiClone.exception.UserNotFoundByIdException;
@@ -37,43 +39,64 @@ public class WishlistService {
 
 	public ResponseEntity<ResponseStructure<WishlistDto>> addWishlist(long userId, long productId,
 			WishlistDto wishlistDto) {
+
 		User existingUser = userDao.findUserById(userId);
+		List<Product> existingUserProduct=existingUser.getProducts();
+		if(existingUserProduct.isEmpty()) {
+			if (existingUser.getUserRole().equals(UserRole.CUSTOMER)) {
+				Product existingProduct = productDao.getProductById(productId);
+				if (existingProduct != null) {
 
-		if (existingUser != null) {
+					Wishlist mappedWishlist = modelMapper.map(wishlistDto, Wishlist.class);
+					mappedWishlist.setUser(existingUser);
+					List<Product> products = new ArrayList<>();
+					products.add(existingProduct);
 
-			if(existingUser.getUserRole().equals(UserRole.CUSTOMER)) {
-			Product existingProduct = productDao.getProductById(productId);
-			if (existingProduct != null) {
+					mappedWishlist.setProducts(products);
+					mappedWishlist.setUser(existingUser);
+					userDao.updateUser(userId, existingUser);
+					wishlistDao.addWishlist(mappedWishlist);
 
-				Wishlist mappedWishlist = modelMapper.map(wishlistDto, Wishlist.class);
-				mappedWishlist.setUser(existingUser);
-				List<Product> products = new ArrayList<>();
-				products.add(existingProduct);
-				mappedWishlist.setProducts(products);
-				wishlistDao.addWishlist(mappedWishlist);
+					ProductDto productDto = this.modelMapper.map(existingProduct, ProductDto.class);
+					ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
+					List<ProductDto> productDtos = new ArrayList<>();
+					productDtos.add(productDto);
+					wishlistDto.setProductDtos(productDtos);
+					wishlistDto.setWishlistId(mappedWishlist.getWishlistId());
 
-				ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
-				structure.setStatus(HttpStatus.CREATED.value());
-				structure.setData(wishlistDto);
-				structure.setMessage("Created Wishlist");
-				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.CREATED);
+					structure.setStatus(HttpStatus.CREATED.value());
+					structure.setData(wishlistDto);
+					structure.setMessage("Created Wishlist");
+					return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.CREATED);
+				} else
+					throw new ProductNotFoundByIdException("Product Review doesn't exist with given id");
 			} else
-				throw new ProductNotFoundByIdException("Product Review doesn't exist with given id");
-		}
-			else
 				throw new UserIsNotCustomerException("Only Customer can add Wishlist");
-		
-		}else
-			throw new UserNotFoundByIdException("User doesn't exist with given id");
-	}
-
+			
+		}else {
 	
+				throw new ProductAlreadyExistingException("You have this product in a WishList");
+
+			
+			
+		}}
+		
+			
 
 	public ResponseEntity<ResponseStructure<WishlistDto>> getWishlistById(long id) {
 		Wishlist existingWishlist = wishlistDao.getWishlistById(id);
 		if (existingWishlist != null) {
 
 			WishlistDto wishlistDto = this.modelMapper.map(existingWishlist, WishlistDto.class);
+			List<Product> products = existingWishlist.getProducts();
+			List<ProductDto> productDtos = new ArrayList<>();
+
+			for (Product product : products) {
+				ProductDto productDto = this.modelMapper.map(product, ProductDto.class);
+				productDtos.add(productDto);
+
+			}
+			wishlistDto.setProductDtos(productDtos);
 
 			ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
 			structure.setStatus(HttpStatus.FOUND.value());
@@ -83,38 +106,42 @@ public class WishlistService {
 		} else
 			throw new WishlistNotFoundByIdException("Wishlist doesn't exist with given id");
 	}
-	
-	public ResponseEntity<ResponseStructure<WishlistDto>> updateWishlist(long id,WishlistDto wishlistDto){
+
+	public ResponseEntity<ResponseStructure<WishlistDto>> updateWishlist(long id, WishlistDto wishlistDto) {
+		Wishlist existingWishlist = wishlistDao.getWishlistById(id);
+		if (existingWishlist != null) {
+			User user = existingWishlist.getUser();
+			if (user.getUserRole().equals(UserRole.CUSTOMER)) {
+				Wishlist mappedWishlist = this.modelMapper.map(wishlistDto, Wishlist.class);
+				wishlistDao.updateWishlist(id, mappedWishlist);
+
+				ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
+				structure.setStatus(HttpStatus.FOUND.value());
+				structure.setData(wishlistDto);
+				structure.setMessage("Wishlist found with given id");
+				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.FOUND);
+			} else
+				throw new UserIsNotCustomerException("Only Customer can update User ");
+		} else
+			throw new ProductNotFoundByIdException("Wishlist doesn't exist with given id");
+	}
+
+	public ResponseEntity<ResponseStructure<WishlistDto>> deleteWishlistById(long id) {
 		Wishlist existingWishlist = wishlistDao.getWishlistById(id);
 		if (existingWishlist != null) {
 
-			Wishlist mappedWishlist = this.modelMapper.map(wishlistDto, Wishlist.class);
-			wishlistDao.updateWishlist(id, mappedWishlist);
-			
+			existingWishlist.setProducts(null);
+			existingWishlist = wishlistDao.deleteProduct(existingWishlist);
+
+			WishlistDto wishlistDto = this.modelMapper.map(existingWishlist, WishlistDto.class);
 			ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
-			structure.setStatus(HttpStatus.FOUND.value());
+			structure.setStatus(HttpStatus.OK.value());
 			structure.setData(wishlistDto);
 			structure.setMessage("Wishlist found with given id");
-			return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.FOUND);
+			return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.OK);
 		} else
 			throw new ProductNotFoundByIdException("Wishlist doesn't exist with given id");
 
 	}
-	public ResponseEntity<ResponseStructure<WishlistDto>> deleteWishlistById(long id){
-		Wishlist existingWishlist = wishlistDao.getWishlistById(id);
-			if (existingWishlist != null) {
-				
-				wishlistDao.deleteProduct(id);
-				WishlistDto wishlistDto  = this.modelMapper.map(existingWishlist, WishlistDto.class);	
-				ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
-				structure.setStatus(HttpStatus.OK.value());
-				structure.setData(wishlistDto);
-				structure.setMessage("Wishlist found with given id");
-				return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.OK);
-			} else
-				throw new ProductNotFoundByIdException("Wishlist doesn't exist with given id");
 
-		}
-		
-		
-	}
+}

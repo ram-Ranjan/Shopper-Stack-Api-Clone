@@ -27,6 +27,15 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		structure.setData("Sorry!! Cart Id Not Found");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> productAlreadyExistingException(ProductAlreadyExistingException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Sorry!! Product already exist in wishlist");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 
 	@ExceptionHandler
 	public ResponseEntity<ResponseStructure<String>> orderIdNotFoundException(OrderIdNotFoundException ex) {
@@ -63,7 +72,23 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		structure.setData("Sorry!! User Id Not Found");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
-
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> categoryNotFoundByIdException(CategoryNotFoundByIdException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Sorry!!  Category not found with given id");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> categoryCanNotBeDeletedException(CategoryCanNotBeDeletedException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Sorry!!  Category cant be deleted");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 	@ExceptionHandler
 	public ResponseEntity<ResponseStructure<String>> userIsNotCustomerException(UserIsNotCustomerException ex) {
 		ResponseStructure<String> structure = new ResponseStructure<>();

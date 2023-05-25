@@ -30,8 +30,8 @@ public class CategoryController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully created"),
 			@ApiResponse(code = 404, message = "Category not found for the given  id") })
 	@PostMapping
-	public ResponseEntity<ResponseStructure<CategoryDto>> addCategory(@RequestParam long merchantId, @RequestBody Category category) {
-		return categoryService.addCategory(merchantId,category);
+	public ResponseEntity<ResponseStructure<CategoryDto>> addCategory(@RequestParam long userId, @RequestBody Category category) {
+		return categoryService.addCategory(userId,category);
 	}
 
 

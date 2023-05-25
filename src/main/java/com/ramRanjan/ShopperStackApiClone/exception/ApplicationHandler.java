@@ -28,6 +28,15 @@ public class ApplicationHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> userStatusBlockedException(UserStatusBlockedException ex) {
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Sorry!! User Status is Blocked");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 	@ExceptionHandler
 	public ResponseEntity<ResponseStructure<String>> productAlreadyExistingException(ProductAlreadyExistingException ex) {
 		ResponseStructure<String> structure = new ResponseStructure<>();

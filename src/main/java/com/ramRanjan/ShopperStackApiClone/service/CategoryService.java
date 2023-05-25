@@ -15,6 +15,7 @@ import com.ramRanjan.ShopperStackApiClone.entity.Category;
 import com.ramRanjan.ShopperStackApiClone.entity.Product;
 import com.ramRanjan.ShopperStackApiClone.entity.User;
 import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
+import com.ramRanjan.ShopperStackApiClone.enums.UserStatus;
 import com.ramRanjan.ShopperStackApiClone.exception.CategoryCanNotBeDeletedException;
 import com.ramRanjan.ShopperStackApiClone.exception.CategoryNotFoundByIdException;
 import com.ramRanjan.ShopperStackApiClone.exception.UserIsNotMerchantException;
@@ -31,11 +32,11 @@ public class CategoryService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public ResponseEntity<ResponseStructure<CategoryDto>> addCategory(long merchantId,
+	public ResponseEntity<ResponseStructure<CategoryDto>> addCategory(long userId,
 			Category category) {
-		User user = userDao.findUserById(merchantId);
+		User user = userDao.findUserById(userId);
 		if (user != null) {
-			if (user.getUserRole().equals(UserRole.MERCHANT)) {
+			if (user.getUserRole().equals(UserRole.MERCHANT) && user.getUserStatus().equals(UserStatus.APPROVED)) {
 				categoryDao.addCategory(category);
 				ResponseStructure<CategoryDto> responseStructure = new ResponseStructure<>();
 				responseStructure.setStatus(HttpStatus.CREATED.value());

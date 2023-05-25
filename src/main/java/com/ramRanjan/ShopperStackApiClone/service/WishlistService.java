@@ -54,7 +54,8 @@ public class WishlistService {
 
 					mappedWishlist.setProducts(products);
 					mappedWishlist.setUser(existingUser);
-					userDao.updateUser(userId, existingUser);
+					
+					userDao.saveUser(existingUser);
 					wishlistDao.addWishlist(mappedWishlist);
 
 					ProductDto productDto = this.modelMapper.map(existingProduct, ProductDto.class);

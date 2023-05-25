@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ramRanjan.ShopperStackApiClone.dto.UserDto;
 import com.ramRanjan.ShopperStackApiClone.entity.User;
+import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
+import com.ramRanjan.ShopperStackApiClone.enums.UserStatus;
 import com.ramRanjan.ShopperStackApiClone.service.UserService;
 import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 
@@ -41,6 +43,15 @@ public ResponseEntity<ResponseStructure<UserDto>> addUser(@RequestBody User user
 public ResponseEntity<ResponseStructure<UserDto>> updateUser(@RequestParam long userId ,@RequestBody User user){
 	return userService.updateUser(userId, user);
 }
+
+@ApiOperation(value = "Update User Status", notes = " Api is used to update the User Status")
+@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully Updated"),
+		@ApiResponse(code = 404, message = "User not found for the given  id") })
+@PutMapping("/userStatus")
+public ResponseEntity<ResponseStructure<UserDto>> updateUserStatus(@RequestParam long userId ,@RequestParam UserStatus userStatus,@RequestParam UserRole userRole){
+	return userService.updateUserStatus(userId, userStatus,userRole);
+}
+
 @ApiOperation(value = "Find User", notes = " Api is used to find the User")
 @ApiResponses(value = { @ApiResponse(code = 302, message = "Successfully fetched"),
 		@ApiResponse(code = 404, message = "User not found for the given  id") })
@@ -56,5 +67,6 @@ public ResponseEntity<ResponseStructure<UserDto>> findUser(@RequestParam long us
 public ResponseEntity<ResponseStructure<UserDto>> deleteUser(@RequestParam long userId){
 	return userService.deleteUserById(userId);
 }
+
 
 }

@@ -30,9 +30,9 @@ public class ProductController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully created"),
 			@ApiResponse(code = 404, message = "Product not found for the given  id") })
 	@PostMapping
-	public ResponseEntity<ResponseStructure<ProductDto>> addProduct(@RequestParam long userId,
+	public ResponseEntity<ResponseStructure<ProductDto>> addProduct(@RequestParam long userId,@RequestParam long merchantId,
 			@RequestBody ProductDto productDto) {
-		return productService.addProduct(userId, productDto);
+		return productService.addProduct(userId, userId, productDto);
 	}
 
 	@ApiOperation(value = "Find Product", notes = " Api is used to find the Product")

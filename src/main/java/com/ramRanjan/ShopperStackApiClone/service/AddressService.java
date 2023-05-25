@@ -37,7 +37,7 @@ public class AddressService {
 			List<Address> addresses=user.getAddresses();
 			addresses.add(address);
 			user.setAddresses(addresses);
-			userDao.updateUser(userId, user);
+			userDao.saveUser(user);
 			if(dbAddress!=null) {
 				ResponseStructure<Address> structure=new ResponseStructure<Address>();
 				structure.setMessage("address saved successfully");

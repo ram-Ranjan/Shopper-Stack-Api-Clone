@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.ramRanjan.ShopperStackApiClone.dto.ProductDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +27,7 @@ public class Wishlist {
 	
 	private String wishlistTitle;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Product> products;
 	
 	@ManyToOne

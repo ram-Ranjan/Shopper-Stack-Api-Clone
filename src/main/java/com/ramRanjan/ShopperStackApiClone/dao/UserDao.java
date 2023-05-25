@@ -1,9 +1,12 @@
 package com.ramRanjan.ShopperStackApiClone.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ramRanjan.ShopperStackApiClone.entity.User;
+import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
 import com.ramRanjan.ShopperStackApiClone.repository.UserRepo;
 
 
@@ -15,13 +18,7 @@ public class UserDao {
 	public User saveUser(User user) {
 		return repo.save(user);
 	}
-	public User updateUser(long userId,User user) {
-		if(repo.findById(userId).isPresent()) {
-			user.setUserId(userId);
-			return repo.save(user);
-		}
-		return null;
-	}
+	
 	public User findUserById(long userId) {
 		if(repo.findById(userId).isPresent()) {
 			return repo.findById(userId).get();
@@ -34,5 +31,11 @@ public class UserDao {
 			return user;
 		}
 		return null;
+	}
+	public List<User> getAllUsers(UserRole userRole){
+		return repo.findAllUsers(userRole);
+		
+		
+		
 	}
 }

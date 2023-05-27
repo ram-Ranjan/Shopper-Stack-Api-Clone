@@ -31,7 +31,7 @@ public class CustomerCartController {
 			@ApiResponse(code = 404, message = "Cart not found for the given  id") })
 	@PostMapping
 public ResponseEntity<ResponseStructure<CustomerCart>> addCart(@RequestParam long userId,@RequestParam long productId,@RequestBody CustomerCartDto cartDto){
-		return cartService.addCart(userId, productId, cartDto);
+		return cartService.addCart(userId, productId);
 	}
 	@ApiOperation(value = "Update Cart", notes = " Api is used to update the Cart")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully Updated"),

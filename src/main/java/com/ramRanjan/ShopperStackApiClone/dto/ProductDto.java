@@ -20,10 +20,13 @@ public class ProductDto {
 	private String productDescription;
 	private double productPrice;
 	private double productDiscount;
+	private double discountedPrice;
 	private LocalDate addedDate;
 	private ProductSize productsize;
 	private ProductStatus produtStatus;
 	private double productStock;
+	private int productQuantity;
+
 	
 
 }

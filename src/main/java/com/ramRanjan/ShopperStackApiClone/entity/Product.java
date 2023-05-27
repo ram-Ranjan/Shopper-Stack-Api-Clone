@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ramRanjan.ShopperStackApiClone.enums.ProductSize;
 import com.ramRanjan.ShopperStackApiClone.enums.ProductStatus;
 
@@ -38,6 +39,8 @@ public class Product {
 	@ApiModelProperty(required = true)
 	private double productDiscount;
 	@ApiModelProperty(required = true)
+	private double discountedPrice;
+	@ApiModelProperty(required = true)
 	@CreatedDate
 	private LocalDate addedDate;
 	@ApiModelProperty(required = true)
@@ -46,12 +49,20 @@ public class Product {
 	private ProductStatus productStatus;
 	@ApiModelProperty(required = true)
 	private double productStock;
+	private int productQuantity;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Category category;
 	
-	@ManyToMany(mappedBy = "products")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
+	@JsonIgnore
+	private List<CustomerProduct> customerProduct;
+	
+	@ManyToOne
+	@JsonIgnore
 	private List<User> listOfUsers;
+	
 	@OneToMany
 	private List<ProductReview> productReviews;
 	

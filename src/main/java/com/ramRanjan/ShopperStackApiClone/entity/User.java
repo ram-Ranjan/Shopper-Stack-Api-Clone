@@ -7,14 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
 import com.ramRanjan.ShopperStackApiClone.enums.UserStatus;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +38,7 @@ public class User {
 	private UserStatus userStatus;
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	List<Address> addresses;
-	@ManyToMany
+	@OneToMany(mappedBy = "listOfUsers",cascade = CascadeType.ALL)
 	List<Product> products;
 	@OneToOne
 	private CustomerCart cart;

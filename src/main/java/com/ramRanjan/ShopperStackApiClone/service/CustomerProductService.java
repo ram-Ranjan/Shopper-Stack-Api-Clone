@@ -1,7 +1,5 @@
 package com.ramRanjan.ShopperStackApiClone.service;
 
-import java.time.LocalDate;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,13 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ramRanjan.ShopperStackApiClone.dao.CategoryDao;
-import com.ramRanjan.ShopperStackApiClone.dao.ProductDao;
+import com.ramRanjan.ShopperStackApiClone.dao.CustomerProductDao;
 import com.ramRanjan.ShopperStackApiClone.dao.UserDao;
+import com.ramRanjan.ShopperStackApiClone.dto.CustomerProductDto;
 import com.ramRanjan.ShopperStackApiClone.dto.ProductDto;
 import com.ramRanjan.ShopperStackApiClone.entity.Category;
-import com.ramRanjan.ShopperStackApiClone.entity.Product;
+import com.ramRanjan.ShopperStackApiClone.entity.CustomerProduct;
 import com.ramRanjan.ShopperStackApiClone.entity.User;
-import com.ramRanjan.ShopperStackApiClone.enums.ProductStatus;
 import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
 import com.ramRanjan.ShopperStackApiClone.enums.UserStatus;
 import com.ramRanjan.ShopperStackApiClone.exception.CategoryNotFoundByIdException;
@@ -26,10 +24,10 @@ import com.ramRanjan.ShopperStackApiClone.exception.UserStatusBlockedException;
 import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 
 @Service
-public class ProductService {
+public class CustomerProductService {
 
 	@Autowired
-	ProductDao productDao;
+	CustomerProductDao productDao;
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -37,7 +35,7 @@ public class ProductService {
 	@Autowired
 	ModelMapper modelMapper;
 
-	public ResponseEntity<ResponseStructure<ProductDto>> addProduct(long userId, long categoryId,
+	public ResponseEntity<ResponseStructure<CustomerProductDto>> addProduct(long userId, long categoryId,
 			ProductDto productDto) {
 		User existingUser = userDao.findUserById(userId);
 		if (existingUser != null) {
@@ -45,19 +43,16 @@ public class ProductService {
 				if (existingUser.getUserStatus().equals(UserStatus.APPROVED)) {
 					Category existingCategory = categoryDao.getCategoryById(categoryId);
 					if (existingCategory != null) {
-						Product mappedProduct = modelMapper.map(productDto, Product.class);
-					    mappedProduct.setDiscountedPrice(mappedProduct.getProductPrice()-(mappedProduct.getProductPrice()*(mappedProduct.getProductDiscount()/100)));
-						mappedProduct.setAddedDate(LocalDate.now());
-						mappedProduct.setCategory(existingCategory);
-						mappedProduct = productDao.addProduct(mappedProduct);
+						CustomerProduct mappedProduct = modelMapper.map(productDto, CustomerProduct.class);
+
+						mappedProduct = productDao.addCustomerProduct(mappedProduct);
 						productDto.setProductId(mappedProduct.getProductId());
 
-						productDto.setAddedDate(mappedProduct.getAddedDate());
-						ResponseStructure<ProductDto> structure = new ResponseStructure<ProductDto>();
+						ResponseStructure<CustomerProductDto> structure = new ResponseStructure<CustomerProductDto>();
 						structure.setStatus(HttpStatus.FOUND.value());
 						structure.setData(productDto);
 						structure.setMessage("Product found with given id");
-						return new ResponseEntity<ResponseStructure<ProductDto>>(structure, HttpStatus.FOUND);
+						return new ResponseEntity<ResponseStructure<CustomerProductDto>>(structure, HttpStatus.FOUND);
 					} else
 						throw new CategoryNotFoundByIdException("User must be merchant to add product");
 				} else
@@ -68,38 +63,38 @@ public class ProductService {
 			throw new UserNotFoundByIdException("User doesn't exist with given id");
 	}
 
-	public ResponseEntity<ResponseStructure<ProductDto>> getProductById(long id) {
-		Product existingProduct = productDao.getProductById(id);
+	public ResponseEntity<ResponseStructure<CustomerProductDto>> getCustomerProductById(long id) {
+		CustomerProduct existingProduct = productDao.getCustomerProductById(id);
 		if (existingProduct != null) {
-			ProductDto productDto = this.modelMapper.map(existingProduct, ProductDto.class);
+			CustomerProductDto productDto = this.modelMapper.map(existingProduct, CustomerProductDto.class);
 
-			ResponseStructure<ProductDto> structure = new ResponseStructure<ProductDto>();
+			ResponseStructure<CustomerProductDto> structure = new ResponseStructure<CustomerProductDto>();
 			structure.setStatus(HttpStatus.FOUND.value());
 			structure.setData(productDto);
 			structure.setMessage("Product found with given id");
-			return new ResponseEntity<ResponseStructure<ProductDto>>(structure, HttpStatus.FOUND);
+			return new ResponseEntity<ResponseStructure<CustomerProductDto>>(structure, HttpStatus.FOUND);
 		} else
 			throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 	}
 
-	public ResponseEntity<ResponseStructure<ProductDto>> updateProduct(long userId, long productId,
+	public ResponseEntity<ResponseStructure<CustomerProductDto>> updateCustomerProduct(long userId, long productId,
 			ProductDto productDto) {
 
 		User existingUser = userDao.findUserById(userId);
 		if (existingUser != null) {
 			if (existingUser.getUserRole().equals(UserRole.MERCHANT ) && existingUser.getUserStatus().equals(UserStatus.APPROVED))
 {
-				Product existingProduct = productDao.getProductById(productId);
+				CustomerProduct existingProduct = productDao.getCustomerProductById(productId);
 				if (existingProduct != null) {
 
-					Product mappedProduct = this.modelMapper.map(productDto, Product.class);
-					mappedProduct = productDao.updateProduct(productId, mappedProduct);
+					CustomerProduct mappedProduct = this.modelMapper.map(productDto, CustomerProduct.class);
+					//mappedProduct = productDao.updateCustomerProduct(productId, mappedProduct);
 					productDto.setProductId(mappedProduct.getProductId());
-					ResponseStructure<ProductDto> structure = new ResponseStructure<ProductDto>();
+					ResponseStructure<CustomerProductDto> structure = new ResponseStructure<CustomerProductDto>();
 					structure.setStatus(HttpStatus.FOUND.value());
 					structure.setData(productDto);
 					structure.setMessage("Product found with given id");
-					return new ResponseEntity<ResponseStructure<ProductDto>>(structure, HttpStatus.FOUND);
+					return new ResponseEntity<ResponseStructure<CustomerProductDto>>(structure, HttpStatus.FOUND);
 				} else
 					throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 			} else
@@ -109,19 +104,19 @@ public class ProductService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<ProductDto>> deleteProductById(long id) {
-		Product existingProduct = productDao.getProductById(id);
+	public ResponseEntity<ResponseStructure<CustomerProductDto>> deleteCustomerProductById(long id) {
+		CustomerProduct existingProduct = productDao.getCustomerProductById(id);
 		if (existingProduct != null) {
 
-			existingProduct.setProductStatus(ProductStatus.OUTOFSTOCK);
-			existingProduct.setProductStock(0);
-			productDao.updateProduct(id, existingProduct);
+//			existingProduct.setProductStatus(ProductStatus.OUTOFSTOCK);
+//			existingProduct.setProductStock(0);
+//			productDao.updateCustomerProduct(id, existingProduct);
 			ProductDto productDto = this.modelMapper.map(existingProduct, ProductDto.class);
-			ResponseStructure<ProductDto> structure = new ResponseStructure<ProductDto>();
+			ResponseStructure<CustomerProductDto> structure = new ResponseStructure<CustomerProductDto>();
 			structure.setStatus(HttpStatus.OK.value());
 			structure.setData(productDto);
 			structure.setMessage("Product found with given id");
-			return new ResponseEntity<ResponseStructure<ProductDto>>(structure, HttpStatus.OK);
+			return new ResponseEntity<ResponseStructure<CustomerProductDto>>(structure, HttpStatus.OK);
 		} else
 			throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 	}

@@ -45,7 +45,7 @@ public class CategoryService {
 				responseStructure.setData(categoryDto);
 				return new ResponseEntity<ResponseStructure<CategoryDto>>(responseStructure, HttpStatus.CREATED);
 			} else {
-				throw new UserIsNotMerchantException("Only merchant can add Brand");
+				throw new UserIsNotMerchantException("Only merchant with status approved can add Category");
 			}
 		} else {
 			throw new UserNotFoundByIdException("User not found");

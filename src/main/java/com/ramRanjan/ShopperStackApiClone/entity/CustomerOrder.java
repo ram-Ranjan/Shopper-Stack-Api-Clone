@@ -6,7 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
+import com.ramRanjan.ShopperStackApiClone.enums.OrderStatus;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +20,15 @@ public class CustomerOrder {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long customerOrderId;
 	private LocalDateTime customerOrderDate;
-	private String customerOrderStatus;
-	@ManyToOne
-	private CustomerCart cart;
+	private OrderStatus orderStatus;
+	private long productId;
+	private String productTitle;
+	private String productDescription;
+	private double productPrice;
+	private double productDiscount;
+	private int customerCartQuantity;
+	private double cartTotalPrice;
 	
+	}
 	
 
-}

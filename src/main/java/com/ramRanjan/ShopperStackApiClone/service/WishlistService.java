@@ -21,7 +21,6 @@ import com.ramRanjan.ShopperStackApiClone.enums.UserRole;
 import com.ramRanjan.ShopperStackApiClone.exception.ProductAlreadyExistingException;
 import com.ramRanjan.ShopperStackApiClone.exception.ProductNotFoundByIdException;
 import com.ramRanjan.ShopperStackApiClone.exception.UserIsNotCustomerException;
-import com.ramRanjan.ShopperStackApiClone.exception.UserNotFoundByIdException;
 import com.ramRanjan.ShopperStackApiClone.exception.WishlistNotFoundByIdException;
 import com.ramRanjan.ShopperStackApiClone.util.ResponseStructure;
 
@@ -41,8 +40,8 @@ public class WishlistService {
 			WishlistDto wishlistDto) {
 
 		User existingUser = userDao.findUserById(userId);
-		List<Product> existingUserProduct=existingUser.getProducts();
-		if(existingUserProduct.isEmpty()) {
+		List<Product> existingUserProduct = existingUser.getProducts();
+		if (existingUserProduct.isEmpty()) {
 			if (existingUser.getUserRole().equals(UserRole.CUSTOMER)) {
 				Product existingProduct = productDao.getProductById(productId);
 				if (existingProduct != null) {
@@ -54,7 +53,7 @@ public class WishlistService {
 
 					mappedWishlist.setProducts(products);
 					mappedWishlist.setUser(existingUser);
-					
+
 					userDao.saveUser(existingUser);
 					wishlistDao.addWishlist(mappedWishlist);
 
@@ -62,7 +61,7 @@ public class WishlistService {
 					ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
 					List<ProductDto> productDtos = new ArrayList<>();
 					productDtos.add(productDto);
-					wishlistDto.setProductDtos(productDtos);
+					wishlistDto.setProducts(productDtos);
 					wishlistDto.setWishlistId(mappedWishlist.getWishlistId());
 
 					structure.setStatus(HttpStatus.CREATED.value());
@@ -70,19 +69,16 @@ public class WishlistService {
 					structure.setMessage("Created Wishlist");
 					return new ResponseEntity<ResponseStructure<WishlistDto>>(structure, HttpStatus.CREATED);
 				} else
-					throw new ProductNotFoundByIdException("Product Review doesn't exist with given id");
+					throw new ProductNotFoundByIdException("Product doesn't exist with given id");
 			} else
 				throw new UserIsNotCustomerException("Only Customer can add Wishlist");
-			
-		}else {
-	
-				throw new ProductAlreadyExistingException("You have this product in a WishList");
 
-			
-			
-		}}
-		
-			
+		} else {
+
+			throw new ProductAlreadyExistingException("You have this product in a WishList");
+
+		}
+	}
 
 	public ResponseEntity<ResponseStructure<WishlistDto>> getWishlistById(long id) {
 		Wishlist existingWishlist = wishlistDao.getWishlistById(id);
@@ -97,7 +93,7 @@ public class WishlistService {
 				productDtos.add(productDto);
 
 			}
-			wishlistDto.setProductDtos(productDtos);
+			wishlistDto.setProducts(productDtos);
 
 			ResponseStructure<WishlistDto> structure = new ResponseStructure<WishlistDto>();
 			structure.setStatus(HttpStatus.FOUND.value());

@@ -14,5 +14,13 @@ public class CustomerOrderDto {
 	private long customerOrderId;
 	private LocalDateTime customerOrderDate;
 	private String customerOrderStatus;
+	private long productId;
+	private String productTitle;
+	private String productDescription;
+	private double productPrice;
+	private double productDiscount;
+	private int customerCartQuantity;
+	private double cartTotalPrice;
+	
 
 }
